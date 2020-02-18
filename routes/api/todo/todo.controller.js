@@ -9,11 +9,7 @@ const getAll = async function (req, res) {
     console.log({
       todos
     });
-    res.status(200).json({
-      status: "success",
-      message: "Todo list retrieved successfully",
-      data: todos
-    });
+    res.status(200).json(data);
   } catch (error) {
     res.json({
       status: "error",
