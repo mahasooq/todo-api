@@ -74,6 +74,23 @@ const updateOne = async function (req, res) {
     });
   }
 };
+
+// Handle delete all todos
+const deleteAll = async function (req, res) {
+  try {
+    const todos = await Todo.remove();
+    console.log({
+      todos
+    });
+    res.status(200).send();
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
 // Handle delete todo
 const deleteOne = async function (req, res) {
   try {
@@ -93,6 +110,7 @@ const deleteOne = async function (req, res) {
 module.exports = {
   getAll,
   addNew,
+  deleteAll,
   deleteOne,
   updateOne
 }
