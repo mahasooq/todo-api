@@ -27,11 +27,7 @@ const addNew = async function (req, res) {
     console.log({
       todo
     });
-    res.status(200).json({
-      status: "success",
-      message: 'New todo created!',
-      data: todo
-    });
+    res.status(200).json(todo);
   } catch (error) {
     res.json({
       status: "error",
