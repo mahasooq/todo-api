@@ -4,6 +4,9 @@ var controller = require('./todo.controller');
 /* GET todos listing. */
 router.get('/', controller.getAll);
 
+/* DELETE all todos. */
+router.delete('/', controller.deleteAll);
+
 /* ADD todo */
 router.post('/', controller.addNew);
 
