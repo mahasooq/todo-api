@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use(cors())
+// app.use(cors())
 
 mongoose.connect('mongodb+srv://m001-student:m001-mongodb-basics@sandbox-3rsww.mongodb.net/angular-todos?retryWrites=true&w=majority', {useNewUrlParser: true});
 
@@ -21,7 +21,7 @@ if(!db)
     console.log("Error connecting db")
 else
     console.log("Db connected successfully")
-
+// app.options('*', cors())
 let apiRoutes = require('./api-routes');
 app.use('/', apiRoutes)
 
