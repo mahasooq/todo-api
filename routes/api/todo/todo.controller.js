@@ -4,10 +4,11 @@ const baseUrl = require('../../../config/environment').hostname;
 // Handle todo GET action
 const getAll = async function (req, res) {
   try {
-    console.log(req.hostname,'===>')
+    console.log(req.hostname, '===>')
     const todos = await Todo.find()
     // .limit()
     const todoWithUrl = todos.map(todo => {
+      if (!todo) return null
       const {
         _id,
         title,
@@ -40,6 +41,7 @@ const getOne = async function (req, res) {
     console.log({
       todo
     });
+    if (!todo) throw new Error('No todo found')
     const {
       _id,
       title,
