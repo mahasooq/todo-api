@@ -9,7 +9,7 @@ const getAll = async function (req, res) {
     console.log({
       todos
     });
-    res.status(200).json(data);
+    res.status(200).json(todos);
   } catch (error) {
     res.json({
       status: "error",
