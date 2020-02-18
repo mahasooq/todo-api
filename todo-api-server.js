@@ -6,16 +6,8 @@ let app = express();
 var port = process.env.PORT || 8080;
 const config = require('./config/environment');
 
-// const corsOption = {
-//     "origin": "*",
-//     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-//     "allowedHeaders": "Content-Type",
-//     "preflightContinue": true
-// }
-// app.use(cors(corsOption))
-
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "*"); 
     res.header("Access-Control-Allow-Headers", "Content-Type");
     res.header("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE");
     next();
@@ -39,8 +31,6 @@ if (!db)
 else
     console.log("Db connected successfully")
 
-// let apiRoutes = require('./api-routes');
-// app.use('/', apiRoutes)
 require('./routes')(app);
 app.listen(port, function () {
     console.log("Running todo API on port " + port);
