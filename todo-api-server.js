@@ -11,20 +11,22 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// app.use(cors())
+app.use(cors())
 
-mongoose.connect('mongodb+srv://m001-student:m001-mongodb-basics@sandbox-3rsww.mongodb.net/angular-todos?retryWrites=true&w=majority', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://m001-student:m001-mongodb-basics@sandbox-3rsww.mongodb.net/angular-todos?retryWrites=true&w=majority', {
+    useNewUrlParser: true
+});
 
 var db = mongoose.connection;
 
-if(!db)
+if (!db)
     console.log("Error connecting db")
 else
     console.log("Db connected successfully")
-// app.options('*', cors())
+
 let apiRoutes = require('./api-routes');
 app.use('/', apiRoutes)
 
-app.listen(port, function(){
+app.listen(port, function () {
     console.log("Running todo API on port " + port);
 });
