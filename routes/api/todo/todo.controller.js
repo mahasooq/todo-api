@@ -22,7 +22,7 @@ const addNew = async function (req, res) {
   try {
     const todo = await new Todo({
       title: req.body.title,
-      completed: req.body.completed
+      completed: false
     }).save()
     console.log({
       todo
@@ -81,11 +81,7 @@ const deleteOne = async function (req, res) {
     console.log({
       todo
     });
-    res.status(200).json({
-      succes: 'Success',
-      message: 'Todo details deleted',
-      data: todo
-    });
+    res.status(200).send();
   } catch (error) {
     res.json({
       status: "error",
