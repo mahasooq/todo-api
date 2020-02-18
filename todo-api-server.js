@@ -24,9 +24,9 @@ if (!db)
 else
     console.log("Db connected successfully")
 
-let apiRoutes = require('./api-routes');
-app.use('/', apiRoutes)
-
+// let apiRoutes = require('./api-routes');
+// app.use('/', apiRoutes)
+require('./routes')(app);
 app.listen(port, function () {
     console.log("Running todo API on port " + port);
 });
