@@ -7,8 +7,11 @@ var todoSchema = mongoose.Schema({
     },
     completed: {
         type: Boolean,
-        required: false
+        default: false
     },
+    order: {
+        type: Number,
+    }
 });
 
 var Todo = module.exports = mongoose.model('todo', todoSchema);
