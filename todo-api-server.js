@@ -4,6 +4,7 @@ let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 let app = express();
 var port = process.env.PORT || 8080;
+const config = require('./config/environment');
 
 // const corsOption = {
 //     "origin": "*",
@@ -27,7 +28,7 @@ app.use(bodyParser.json());
 
 
 
-mongoose.connect('mongodb+srv://m001-student:m001-mongodb-basics@sandbox-3rsww.mongodb.net/angular-todos?retryWrites=true&w=majority', {
+mongoose.connect(config.bookshelf.client, {
     useNewUrlParser: true
 });
 

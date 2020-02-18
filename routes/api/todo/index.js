@@ -4,6 +4,9 @@ var controller = require('./todo.controller');
 /* GET todos listing. */
 router.get('/', controller.getAll);
 
+/* GET one todo */
+router.get('/:todo_id', controller.getOne);
+
 /* DELETE all todos. */
 router.delete('/', controller.deleteAll);
 
@@ -11,7 +14,7 @@ router.delete('/', controller.deleteAll);
 router.post('/', controller.addNew);
 
 /* UPDATE todo */
-router.put('/:todo_id', controller.updateOne);
+router.patch('/:todo_id', controller.updateOne);
 
 /* DELETE todo */
 router.delete('/:todo_id', controller.deleteOne);

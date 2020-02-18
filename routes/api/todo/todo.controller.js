@@ -1,15 +1,57 @@
 // Import todo model
 Todo = require('./todo.model');
-
+const baseUrl = require('../../../config/environment').hostname;
 // Handle todo GET action
 const getAll = async function (req, res) {
   try {
+    console.log(req.hostname,'===>')
     const todos = await Todo.find()
     // .limit()
+    const todoWithUrl = todos.map(todo => {
+      const {
+        _id,
+        title,
+        completed,
+        order
+      } = todo;
+      return {
+        _id,
+        title,
+        completed,
+        order,
+        url: `${req.hostname}/todo/${_id}`
+      }
+    })
     console.log({
-      todos
+      todoWithUrl
     });
-    res.status(200).json(todos);
+    res.status(200).json(todoWithUrl);
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+// Handle get one todo info
+const getOne = async function (req, res) {
+  try {
+    const todo = await Todo.findById(req.params.todo_id);
+    console.log({
+      todo
+    });
+    const {
+      _id,
+      title,
+      completed,
+      order
+    } = todo;
+    res.status(200).json({
+      _id,
+      title,
+      completed,
+      order
+    });
   } catch (error) {
     res.json({
       status: "error",
@@ -20,14 +62,23 @@ const getAll = async function (req, res) {
 // Handle create todo actions
 const addNew = async function (req, res) {
   try {
-    const todo = await new Todo({
-      title: req.body.title,
-      completed: false
-    }).save()
+    const todo = await new Todo(req.body).save()
     console.log({
       todo
     });
-    res.status(200).json(todo);
+    const {
+      _id,
+      title,
+      completed,
+      order
+    } = todo;
+    res.status(200).json({
+      _id,
+      title,
+      completed,
+      order,
+      url: `${req.hostname}/todo/${_id}`
+    });
   } catch (error) {
     res.json({
       status: "error",
@@ -36,36 +87,31 @@ const addNew = async function (req, res) {
   }
 };
 
-// Handle view todo info
-const view = async function (req, res) {
-  try {
-    const todo = await Todo.findById(req.params.todo_id);
-    console.log({
-      todo
-    });
-    res.status(200).json({
-      status: "success",
-      message: 'Todo details loading..',
-      data: todo
-    });
-  } catch (error) {
-    res.json({
-      status: "error",
-      message: error.message,
-    });
-  }
-};
+
 // Handle update todo info
 const updateOne = async function (req, res) {
   try {
     const data = req.body;
-    const todo = await Todo.findByIdAndUpdate(req.params.todo_id, data);
+    const todo = await Todo.findByIdAndUpdate(
+      req.params.todo_id,
+      data, {
+        new: true
+      });
     console.log({
       todo
     });
+    const {
+      _id,
+      title,
+      completed,
+      order,
+    } = todo;
     res.status(200).json({
-      message: 'Todo details updated',
-      data: todo
+      _id,
+      title,
+      completed,
+      order,
+      url: `${req.hostname}/todo/${_id}`
     });
   } catch (error) {
     res.json({
@@ -112,5 +158,6 @@ module.exports = {
   addNew,
   deleteAll,
   deleteOne,
-  updateOne
+  updateOne,
+  getOne
 }
