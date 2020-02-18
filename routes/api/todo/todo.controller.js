@@ -4,7 +4,7 @@ const baseUrl = require('../../../config/environment').hostname;
 // Handle todo GET action
 const getAll = async function (req, res) {
   try {
-    console.log(req.hostname, '===>')
+    console.log(baseUrl, '===>')
     const todos = await Todo.find()
     // .limit()
     const todoWithUrl = todos.map(todo => {
@@ -20,7 +20,7 @@ const getAll = async function (req, res) {
         title,
         completed,
         order,
-        url: `${req.hostname}/todo/${_id}`
+        url: `${baseUrl}/todo/${_id}`
       }
     })
     console.log({
@@ -79,7 +79,7 @@ const addNew = async function (req, res) {
       title,
       completed,
       order,
-      url: `${req.hostname}/todo/${_id}`
+      url: `${baseUrl}/todo/${_id}`
     });
   } catch (error) {
     res.json({
@@ -113,7 +113,7 @@ const updateOne = async function (req, res) {
       title,
       completed,
       order,
-      url: `${req.hostname}/todo/${_id}`
+      url: `${baseUrl}/todo/${_id}`
     });
   } catch (error) {
     res.json({
