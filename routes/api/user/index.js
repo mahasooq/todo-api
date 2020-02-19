@@ -1,9 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var controller = require('./user.controller');
+const express = require('express');
+const router = express.Router();
+const controller = require('./user.controller');
+const auth = require('../../../auth/auth.service');
+/* Login */
+router.post('/login', controller.login);
 
-/* GET Login route */
-router.get('/login', controller.login);
+/* Login */
+router.get('/login', controller.checkLogin);
+
+/* Logout */
+router.get('/logout', controller.logout);
 
 /* POST Register route */
 router.post('/register', controller.register);

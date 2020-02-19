@@ -71,17 +71,16 @@ let login = async (req, res) => {
         }
         const checkPassword = await UserDAO.getUsers(criteria, fields);
         if (checkPassword && checkPassword.length == 1) {
-          var user = new User();
-
-          user.first_name = req.body.first_name ? req.body.first_name : "";
-          user.last_name = req.body.last_name ? req.body.last_name : "";
-          user.email = req.body.email;
-          user.phone = req.body.phone;
-          var token = user.generateJwt();
+          const user = {}
+          user._id = checkPassword[0]._id
+          user.first_name = checkPassword[0].first_name;
+          user.last_name = checkPassword[0].last_name;
+          user.email = checkPassword[0].email;
+          user.phone = checkPassword[0].phone;
+          req.session.user = user;
           res.status(200).json({
             message: 'Logged in successfully!',
-            result: checkPassword,
-            token: token
+            user
           });
         } else {
           res.status(401).json({
@@ -101,8 +100,30 @@ let login = async (req, res) => {
     }
   }
 };
+const logout = function (req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      res.status(500).send('Could not log out.');
+    } else {
+      res.status(200).send({
+        loggedOut: true
+      });
+    }
+  });
+}
+
+const checkLogin = function (req, res) {
+  return req.session.user ? res.status(200).send({
+    loggedIn: true,
+    user: req.session.user
+  }) : res.status(200).send({
+    loggedIn: false
+  });
+}
 
 module.exports = {
-  register: register,
-  login: login
+  register,
+  login,
+  logout,
+  checkLogin
 }
