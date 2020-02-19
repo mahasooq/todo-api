@@ -4,7 +4,10 @@ const baseUrl = require('../../../config/environment').hostname;
 // Handle todo GET action
 const getAll = async function (req, res) {
   try {
-    const todos = await Todo.find()
+    const user = req.session.user;
+    const todos = await Todo.find({
+      userId: user._id
+    })
     const todoWithUrl = todos.map(todo => {
       if (!todo) return null
       const {
@@ -32,10 +35,16 @@ const getAll = async function (req, res) {
     });
   }
 };
+
+
 // Handle get one todo info
 const getOne = async function (req, res) {
   try {
-    const todo = await Todo.findById(req.params.todo_id);
+    const user = req.session.user;
+    const todo = await Todo.findOne({
+      _id: req.params.todo_id,
+      userId: user._id
+    });
     console.log({
       todo
     });
@@ -62,7 +71,11 @@ const getOne = async function (req, res) {
 // Handle create todo actions
 const addNew = async function (req, res) {
   try {
-    const todo = await new Todo(req.body).save()
+    const user = req.session.user;
+    const recievedData = req.body;
+    recievedData.userId = user._id;
+
+    const todo = await new Todo(recievedData).save()
     console.log({
       todo
     });
@@ -91,9 +104,13 @@ const addNew = async function (req, res) {
 // Handle update todo info
 const updateOne = async function (req, res) {
   try {
+    const user = req.session.user;
+
     const data = req.body;
-    const todo = await Todo.findByIdAndUpdate(
-      req.params.todo_id,
+    const todo = await Todo.findOneAndUpdate({
+        _id: req.params.todo_id,
+        userId: user._id
+      },
       data, {
         new: true
       });
@@ -124,7 +141,11 @@ const updateOne = async function (req, res) {
 // Handle delete all todos
 const deleteAll = async function (req, res) {
   try {
-    const todos = await Todo.remove();
+    const user = req.session.user;
+
+    const todos = await Todo.remove({
+      userId: user._id
+    });
     console.log({
       todos
     });
@@ -140,7 +161,12 @@ const deleteAll = async function (req, res) {
 // Handle delete todo
 const deleteOne = async function (req, res) {
   try {
-    const todo = await Todo.findByIdAndDelete(req.params.todo_id);
+    const user = req.session.user;
+
+    const todo = await Todo.findOneAndDelete({
+      _id: req.params.todo_id,
+      userId: user._id
+    });
     console.log({
       todo
     });

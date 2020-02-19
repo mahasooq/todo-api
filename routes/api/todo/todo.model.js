@@ -11,6 +11,9 @@ var todoSchema = mongoose.Schema({
     },
     order: {
         type: Number,
+    },
+    userId: {
+        type: String
     }
 });
 
