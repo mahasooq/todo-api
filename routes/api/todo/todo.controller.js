@@ -95,8 +95,8 @@ const updateOne = async function (req, res) {
     const todo = await Todo.findByIdAndUpdate(
       req.params.todo_id,
       data, {
-        new: true
-      });
+      new: true
+    });
     console.log({
       todo
     });
@@ -121,14 +121,33 @@ const updateOne = async function (req, res) {
   }
 };
 
+//update all todos at once
+const updateAll = async function (req, res) {
+  try {
+    const body = req.body;
+    // if (body) {
+    const todos = await Todo.updateMany({ completed: false }, body, { new: true })
+    res.status(200).json({
+      update: true
+    });
+    // }
+    // else return res.status(400).send('Send payload');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+}
+
 // Handle delete all todos
 const deleteAll = async function (req, res) {
   try {
-    const todos = await Todo.remove();
+    const cond = req.body.cond;
+    console.log({cond});
+    
+    const todos = cond ? await Todo.remove(cond) : await Todo.remove();;
     console.log({
       todos
     });
-    res.status(200).send();
+    res.status(200).json({ deleted: true });
   } catch (error) {
     res.json({
       status: "error",
@@ -159,5 +178,6 @@ module.exports = {
   deleteAll,
   deleteOne,
   updateOne,
+  updateAll,
   getOne
 }

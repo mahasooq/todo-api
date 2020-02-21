@@ -8,10 +8,15 @@ router.get('/', controller.getAll);
 router.get('/:todo_id', controller.getOne);
 
 /* DELETE all todos. */
-router.delete('/', controller.deleteAll);
+// router.delete('/', controller.deleteAll);
+
+router.post('/delete-many', controller.deleteAll);
 
 /* ADD todo */
 router.post('/', controller.addNew);
+
+/* UPDATE all */
+router.patch('/all', controller.updateAll);
 
 /* UPDATE todo */
 router.patch('/:todo_id', controller.updateOne);
